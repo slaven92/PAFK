@@ -10,14 +10,15 @@ t=2*sqrt(n1*n2)/(n1+n2);
 
 delta=100;
 N=5000;
-bursts=5;
-z0=25000;
-z1=8000;
+bursts=3;
+z0=65000;
+z1=7000;
 L1=lamda0./(4.*n1);
 L2=lamda0./(4.*n2);
 lmbda=linspace(lamda0-delta,lamda0+delta,N);
 m=round(z1/(L1+L2));
-L3=z0-m*(L1+L2);
+%L3=z0-m*(L1+L2);
+L3=z0-z1;
 
 beta1=2.*pi.*n1./lmbda;
 beta2=2.*pi.*n2./lmbda;
