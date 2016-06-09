@@ -4,26 +4,27 @@ clc
 
 lamda0=1550; % nanometri
 n1=3.2255;
-n2=3.26;
+n2=3.2609;
 r=abs((n1-n2)/(n1+n2));
 t=2*sqrt(n1*n2)/(n1+n2);
 
 delta=200;
-N=2000;
-m=5;
+N=3000;
+m=4;
 lmbda=linspace(lamda0-delta,lamda0+delta,N);
 
 L1=lamda0./(4.*n1);
 L2=lamda0./(4.*n2);
-N1=100;
-ma=100;
+samplovi=200;
 duzina=65000;
-dn=(duzina-N1.*(L1+L2))./((N1-1)*N1);
-%dn=(ma.*lamda0./2 - (L1.*n1+n2.*L2).*N1./2)./((N1.*(N1-1).*(n1+n2))./2);
+dn=(duzina-samplovi.*(L1+L2)./2)./((samplovi./2-1)*samplovi./2);
+ma=round(2./lamda0.*((L1.*n1+L2.*n2).*samplovi./2+dn.*(samplovi./2.*(samplovi./2-1).*(n1+n2))./2));
+%dn=(duzina-N1.*(L1+L2)./2)./((N1./2-1)*N1./2);
+dn=(ma.*lamda0./2 - (L1.*n1+L2.*n2).*samplovi./2)./((samplovi./2.*(samplovi./2-1).*(n1+n2))./2);
 Lovi=L1;
 Lovi(2)=L2;
 
-for i=3:2:N1
+for i=3:2:samplovi
   Lovi(i)=Lovi(i-2)+dn;
   Lovi(i+1)=Lovi(i-1)+dn;
 end
