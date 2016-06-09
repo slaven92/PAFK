@@ -2,27 +2,34 @@ clear all
 close all
 clc
 
-lamda0=1550; % nanometri
-n1=3.2609;
-n2=3.2255;
+lamda0=1540; % nanometri
+ni2=3.2609;
+ni1=3.2255;
+%deltan=ni2.*1./lamda0; %radi po formuliiiiiiii
+deltan=0; %radi po formuliiiiiiii
+n2=3.2609+deltan;
+n1=3.2255+deltan;
 r=abs((n1-n2)/(n1+n2));
 t=2*sqrt(n1*n2)/(n1+n2);
 
-delta=100;
+delta=20;
 N=5000;
-bursts=3;
-z0=65000;
-z1=7000;
-L1=lamda0./(4.*n1);
-L2=lamda0./(4.*n2);
+bursts=10;
+z0=50000;
+z1=3000;
+%L1=lamda0./(4.*n1);
+L1=lamda0./(4.*ni1);
+%L2=lamda0./(4.*n2);
+L2=lamda0./(4.*ni2);
 lmbda=linspace(lamda0-delta,lamda0+delta,N);
 m=round(z1/(L1+L2));
-%L3=z0-m*(L1+L2);
-L3=z0-z1;
+z1=m.*(L1+L2);
+L3=round((z0-z1)./(lamda0./(2*ni2)));
+L3=L3.*lamda0./(2*ni2);
 
 beta1=2.*pi.*n1./lmbda;
 beta2=2.*pi.*n2./lmbda;
-beta3=beta1;
+beta3=beta2;
 
 phiplus=beta1.*L1+beta2.*L2;
 phiminus=beta1.*L1-beta2.*L2;

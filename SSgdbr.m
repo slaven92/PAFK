@@ -8,22 +8,37 @@ n2=3.26;
 r=abs((n1-n2)/(n1+n2));
 t=2*sqrt(n1*n2)/(n1+n2);
 
-delta=20;
+delta=200;
 N=2000;
-m=15;
+m=5;
 lmbda=linspace(lamda0-delta,lamda0+delta,N);
 
-%L1=lamda0./(4.*n1);
-%L2=lamda0./(4.*n2);
+L1=lamda0./(4.*n1);
+L2=lamda0./(4.*n2);
+N1=100;
+ma=100;
+duzina=65000;
+dn=(duzina-N1.*(L1+L2))./((N1-1)*N1);
+%dn=(ma.*lamda0./2 - (L1.*n1+n2.*L2).*N1./2)./((N1.*(N1-1).*(n1+n2))./2);
+Lovi=L1;
+Lovi(2)=L2;
+
+for i=3:2:N1
+  Lovi(i)=Lovi(i-2)+dn;
+  Lovi(i+1)=Lovi(i-1)+dn;
+end
+
+sum(Lovi)
 %Lovi=linspace(2000,3000,100);
 %Lovi=[L1 L2];
 beta1=2.*pi.*n1./lmbda;
 beta2=2.*pi.*n2./lmbda;
 
-L1=1800;
-N1=50;
-dn=(65000-N1.*L1)./((N1-1).*N1./2);
-Lovi=L1:dn:(L1+(N1-1).*dn);
+%L1=5000;
+%N1=20;
+%dd=500;
+%dn=(L1.*(n1+n2).*N1-dd.*lamda0./2)./(n1.*(N1-1).*(N1-1)+n2.*N1.^2);
+%Lovi=linspace(L1,L1-(2.*N1-1).*dn,2.*N1)
 
 
 
