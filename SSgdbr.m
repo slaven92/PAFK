@@ -8,25 +8,24 @@ n2=3.2609;
 r=abs((n1-n2)/(n1+n2));
 t=2*sqrt(n1*n2)/(n1+n2);
 
-delta=200;
+delta=100;
 N=3000;
-m=4;
+m=20;
 lmbda=linspace(lamda0-delta,lamda0+delta,N);
 
-L1=lamda0./(4.*n1);
-L2=lamda0./(4.*n2);
-samplovi=200;
+%L1=lamda0./(4.*n1);
+L1=1200;
+%L2=lamda0./(4.*n2);
+samplovi=60;
 duzina=65000;
-dn=(duzina-samplovi.*(L1+L2)./2)./((samplovi./2-1)*samplovi./2);
-ma=round(2./lamda0.*((L1.*n1+L2.*n2).*samplovi./2+dn.*(samplovi./2.*(samplovi./2-1).*(n1+n2))./2));
+dn=(duzina-samplovi.*(L1))./((samplovi-1)*samplovi./2);
+ma=round(2./lamda0.*(L1.*(n1+n2).*samplovi./2+dn.*(samplovi./2.*(samplovi./2-1).*n1+n2.*(samplovi./2).^2)));
 %dn=(duzina-N1.*(L1+L2)./2)./((N1./2-1)*N1./2);
-dn=(ma.*lamda0./2 - (L1.*n1+L2.*n2).*samplovi./2)./((samplovi./2.*(samplovi./2-1).*(n1+n2))./2);
+dn=(ma.*lamda0./2 - L1.*(n1+n2).*samplovi./2)./(samplovi./2.*(samplovi./2-1).*n1+n2.*(samplovi./2).^2);
 Lovi=L1;
-Lovi(2)=L2;
 
-for i=3:2:samplovi
-  Lovi(i)=Lovi(i-2)+dn;
-  Lovi(i+1)=Lovi(i-1)+dn;
+for i=2:samplovi
+  Lovi(i)=Lovi(i-1)+dn;
 end
 
 sum(Lovi)
@@ -72,4 +71,4 @@ end
 
 reflection=abs(matrix(2,1,:)./matrix(1,1,:));
 reflection=reshape(reflection,1,[]);
-plot(lmbda,reflection)
+plot(lmbda,reflection.^2)
