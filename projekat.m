@@ -34,7 +34,7 @@ la=500; % aktivna oblast u [um]
 lp=75; % fazna oblast u [um]
 
 lam=1540; % lambda za slucaj projekta
-deltaLambda=[6.2 5];% 1=front 2=back ovo je spejsing izmedju pikova ogledala treba odabrati pravi [nm]
+deltaLambda=[4 4.5];% 1=front 2=back ovo je spejsing izmedju pikova ogledala treba odabrati pravi [nm]
 ng=3.8; % grupni indeks
 envelopa=100; % propusni opseg za oba ogledala [nm]
 
@@ -45,10 +45,10 @@ z0=lam.^2./(2.*ng.*deltaLambda)./1000;% 1=front 2=back ovako se racuna z0 za oba
 %z0=round(z0);
 %deltaLambda=lam.^2./(2.*3.8.*z0)./1000;
 %--------------------------------------------------------
-kapa1=434.9/10000; % jacina sprege, pitanje je da li se koriti ovo [um^-1]
+kapa1=kapa(2); % jacina sprege, pitanje je da li se koriti ovo [um^-1]
 
-nbf=4;  % broj burstova prednjeg ogledala
-nbb=5;  % broj burstova zadnjeg ogledala
+nbf=5;  % broj burstova prednjeg ogledala
+nbb=10;  % broj burstova zadnjeg ogledala
 %nbb=8:10;  % broj burstova zadnjeg ogledala
 
 %back ogledalo
@@ -105,10 +105,10 @@ a=find(t!=0); % sadrzi mesta na kojima se nalaze slu;ajevi koji zadovoljavaju us
 
 %%struje ogledala potrebne za tjunovanje
 nbb1=10;
-nbf1=3;
+nbf1=5;
 lc1=750; % uneti izabranu ukupnu duzinu na osnovu broja burstova iz prethodnog dela [um]
-leff1=50; % popuniti odozgo za prednje ogledalo [um]
-leff2=70; % popuniti odozgo za zadnje ogledalo [um]
+leff1=lefff; % popuniti odozgo za prednje ogledalo [um]
+leff2=leffb; % popuniti odozgo za zadnje ogledalo [um]
 gama1=la./lc1.*0.043; % faktor konfiniranja 
 ni=0.7; % gubici ubacivanja struje
 q=1.6e-19; % nalektrisanje elektrona [C]
@@ -116,25 +116,30 @@ V=0.007.*la.*7.*3.*1e-12; % zapremina aktivne oblasti [cm3]
 B=0.5e-10; %[cm3/s]
 
 
-dl=[1 2 3 4 5 6; 2 3 4 5 6 7 ]; % pomeraji za odg tal duz; gore prednje, dole zadnje[nm]
-neff1=3.25; % efektivni indeks prelamanja upisati ili ovaj ili onaj iz prvog dela zadatka
+dl=[1 2 3 0 3 2 1; 3 3.5 4 0 1.5 1 0.5]; % pomeraji za odg tal duz; gore prednje, dole zadnje[nm]
+neff1=3.2609; % efektivni indeks prelamanja upisati ili ovaj ili onaj iz prvog dela zadatka
 lam1=lam; % upisati lambda na kojoj ce se raditi
-deltan=neff1.*dl./lam1; % pomeraj indeska za koji se ostvaruje pomeraj dl
+deltan=-neff1.*dl./lam1; % pomeraj indeska za koji se ostvaruje pomeraj dl
 
 konc=deltan./(0.01.*gama1).*1e18; %koncentracija koja je potrebna da se dobije dn[cm-3]
 
-current=q.*V.*B.*konc.^2./ni; % struja koja je potrebna za dl[A]
+C=(-7.*neff1./lam1+1)./(log10(90));
+%current=q.*V.*B.*konc.^2./ni; % struja koja je potrebna za dl[A]
+current=10.^((deltan+1)./C)-10; % struja koja je potrebna za dl[mA]
 
 %%treshhold za postizanje laserovanja
-rf=tanh(kapa1.*nbf1.*z1);
-rb=tanh(kapa1.*nbb1.*z1);
+%rf=tanh(kapa1.*nbf1.*z1);
+%rb=tanh(kapa1.*nbb1.*z1);
+
+r=[0.1 0.2 0.3 0.4 0.5 0.6 0.7; 0.1 0.2 0.3 0.4 0.5 0.6 0.7]; % front gore back dole
 
 
-alphap=5+5.*konc.*1e-18; %gubici u ogledalima i fazi[cm-1]
+%alphap=5+5.*konc.*1e-18; %gubici u ogledalima i fazi[cm-1]
+alphap=5; %gubici u ogledalima i fazi[cm-1]
 alphaa=15;% gubici u akt [cm-1]
 alphai=(alphap.*(lp+leff1+leff2)+alphaa.*la)./lc1; %srednji gubici [cm-1]
 
-alpham=1./lc1.*log(1./(rb.*rf)).*10000; % gubici ogledala [cm-1]
+alpham=1./lc1.*log(1./(r(1,:).*r(2,:))).*10000; % gubici ogledala [cm-1]
 
 
 
