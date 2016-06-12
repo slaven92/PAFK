@@ -5,7 +5,7 @@ clc
 lamda0=1540; % nanometri
 ni2=3.2609;
 ni1=3.2255;
-delta=50;
+delta=40;
 N=7000;
 %L1=lamda0./(4.*n1);
 L1=lamda0./(4.*ni1);
@@ -19,7 +19,7 @@ lmbda=linspace(lamda0-delta,lamda0+delta,N);
 %% front mirror
 
 %for i=1:length(deltanfull)
-deltan=ni2.*1./lamda0; %radi po formuliiiiiiii
+deltan=-ni2.*1./lamda0; %radi po formuliiiiiiii
 %deltan=deltanfull(i);
 n2=ni2+deltan;
 n1=ni1+deltan;
@@ -96,7 +96,7 @@ reflectionfront=reshape(reflectionfront,1,[]);
 %% back mirror
 
 %deltan=[0.01 0.02];
-deltan=ni2.*1./lamda0; %radi po formuliiiiiiii
+deltan=-ni2.*1./lamda0; %radi po formuliiiiiiii
 n2=ni2+deltan;
 n1=ni1+deltan;
 r=abs((n1-n2)/(n1+n2));
