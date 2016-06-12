@@ -106,7 +106,7 @@ a=find(t!=0); % sadrzi mesta na kojima se nalaze slu;ajevi koji zadovoljavaju us
 %%struje ogledala potrebne za tjunovanje
 nbb1=10;
 nbf1=5;
-lc1=750; % uneti izabranu ukupnu duzinu na osnovu broja burstova iz prethodnog dela [um]
+lc1=lc; % uneti izabranu ukupnu duzinu na osnovu broja burstova iz prethodnog dela [um]
 leff1=lefff; % popuniti odozgo za prednje ogledalo [um]
 leff2=leffb; % popuniti odozgo za zadnje ogledalo [um]
 gama1=la./lc1.*0.043; % faktor konfiniranja 
@@ -126,13 +126,15 @@ konc=deltan./(0.01.*gama1).*1e18; %koncentracija koja je potrebna da se dobije d
 C=(-7.*neff1./lam1+1)./(log10(90));
 %current=q.*V.*B.*konc.^2./ni; % struja koja je potrebna za dl[A]
 current=10.^((deltan+1)./C)-10; % struja koja je potrebna za dl[mA]
+current(:,4)=zeros(2,1);
 
 %%treshhold za postizanje laserovanja
 %rf=tanh(kapa1.*nbf1.*z1);
 %rb=tanh(kapa1.*nbb1.*z1);
 
-r=[0.1 0.2 0.3 0.4 0.5 0.6 0.7; 0.1 0.2 0.3 0.4 0.5 0.6 0.7]; % front gore back dole
-
+r=[0.3643 0.3691 0.3718 0.3725 0.3694 0.364 0.3565;0.78 0.7862 0.79 0.791 0.7872 0.7805 0.7712]; % front gore back dole
+%r=[0.3 0.2 0.3 0.3 0.3 0.3 0.3; 0.7 0.7 0.7 0.7 0.7 0.7 0.7]; % front gore back dole
+r=sqrt(r);
 
 %alphap=5+5.*konc.*1e-18; %gubici u ogledalima i fazi[cm-1]
 alphap=5; %gubici u ogledalima i fazi[cm-1]
